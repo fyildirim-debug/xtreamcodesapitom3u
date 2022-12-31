@@ -35,11 +35,11 @@ if (isset($_POST['islemyap'])) {
 
     <center>
         <form action="#" method="post"><br>
-            <label for="ogrno" class="form-label">IPTV Url</label>
+            <label for="url" class="form-label">IPTV Url</label>
             <input type="text" class="form-control" name="url" id="url"  required><br><br>
-            <label for="ogrno" class="form-label">Username</label>
+            <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" name="username" id="username"  required><br><br>
-            <label for="ogrno" class="form-label">Password</label>
+            <label for="password" class="form-label">Password</label>
             <input type="text" class="form-control" name="password" id="password"  required><br><br>
             <input type="hidden" name="islemyap" value="1">
             <button type="submit" >Submit</button>
