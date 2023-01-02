@@ -1,12 +1,22 @@
 <?php
 if (isset($_POST['islemyap'])) {
-    $json = file_get_contents($_POST['url'].'/player_api.php?username='.$_POST['username'].'&password='.$_POST['password']);
+
+    function curlRequest($url) {
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $url);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        $data = curl_exec($c);
+        curl_close($c);
+        return $data;
+    }
+
+    $json = curlRequest($_POST['url'].'/player_api.php?username='.$_POST['username'].'&password='.$_POST['password']);
     $mainurlraw = json_decode($json, true);
 
-    $json = file_get_contents($_POST['url'].'/player_api.php?username='.$_POST['username'].'&password='.$_POST['password'].'&action=get_live_streams');
+    $json = curlRequest($_POST['url'].'/player_api.php?username='.$_POST['username'].'&password='.$_POST['password'].'&action=get_live_streams');
     $livechannelraw = json_decode($json, true);
 
-    $json = file_get_contents($_POST['url'].'/player_api.php?username='.$_POST['username'].'&password='.$_POST['password'].'&action=get_live_categories');
+    $json = curlRequest($_POST['url'].'/player_api.php?username='.$_POST['username'].'&password='.$_POST['password'].'&action=get_live_categories');
     $categoryraw = json_decode($json, true);
 
     $username = ($mainurlraw['user_info']['username']);
