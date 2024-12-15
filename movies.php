@@ -58,3 +58,5 @@ if (isset($_POST['islemyap'])) {
 <?php
 }
 ?>
+
+//Thanks arab21dwc
