@@ -14,7 +14,7 @@ Bu araç, Xtream Codes/Xtream UI IPTV sistemlerinden M3U playlist oluşturmanız
 - EPG (Elektronik Program Rehberi) desteği
 - Catch-up/Geriye Dönük İzleme desteği
 - Çoklu dil desteği (TR, EN, DE, FR)
-- İçerik filtreleme ve sayfalama
+- İçerik filtreleme
 - Zaman dilimi ayarı
 - Modern ve responsive arayüz
 
@@ -29,8 +29,7 @@ Bu araç, Xtream Codes/Xtream UI IPTV sistemlerinden M3U playlist oluşturmanız
 2. Kullanıcı adı ve şifrenizi girin
 3. İstediğiniz içerik türünü seçin (Tümü, Canlı, Film)
 4. EPG ve Catch-up özelliklerini isteğe bağlı olarak aktifleştirin
-5. Sayfa başına gösterilecek içerik sayısını seçin
-6. "M3U Oluştur" butonuna tıklayın
+5. "M3U Oluştur" butonuna tıklayın
 
 ### 📝 Teknik Detaylar
 Dizi içerikleri aşağıdaki teknik nedenlerden dolayı desteklenmemektedir:
@@ -71,7 +70,7 @@ This tool allows you to create M3U playlists from Xtream Codes/Xtream UI IPTV sy
 - EPG (Electronic Program Guide) support
 - Catch-up/Time-shift support
 - Multi-language support (TR, EN, DE, FR)
-- Content filtering and pagination
+- Content filtering
 - Timezone adjustment
 - Modern and responsive interface
 
@@ -86,8 +85,7 @@ This tool allows you to create M3U playlists from Xtream Codes/Xtream UI IPTV sy
 2. Enter username and password
 3. Select content type (All, Live, Movies)
 4. Optionally enable EPG and Catch-up
-5. Select items per page
-6. Click "Generate M3U"
+5. Click "Generate M3U"
 
 ## Deutsch
 
@@ -99,7 +97,7 @@ Dieses Tool ermöglicht das Erstellen von M3U-Playlisten aus Xtream Codes/Xtream
 - EPG-Unterstützung
 - Catch-up/Zeitversetztes Fernsehen
 - Mehrsprachenunterstützung (TR, EN, DE, FR)
-- Inhaltsfilterung und Paginierung
+- Inhaltsfilterung
 - Zeitzonenanpassung
 - Moderne und responsive Oberfläche
 
@@ -114,8 +112,7 @@ Dieses Tool ermöglicht das Erstellen von M3U-Playlisten aus Xtream Codes/Xtream
 2. Benutzername und Passwort eingeben
 3. Inhaltstyp auswählen (Alle, Live, Filme)
 4. Optional EPG und Catch-up aktivieren
-5. Einträge pro Seite wählen
-6. "M3U Generieren" klicken
+5. "M3U Generieren" klicken
 
 ## Français
 
@@ -127,7 +124,7 @@ Cet outil permet de créer des playlists M3U à partir des systèmes IPTV Xtream
 - Support EPG
 - Support Catch-up
 - Support multilingue (TR, EN, DE, FR)
-- Filtrage de contenu et pagination
+- Filtrage de contenu
 - Ajustement du fuseau horaire
 - Interface moderne et responsive
 
@@ -142,8 +139,7 @@ Cet outil permet de créer des playlists M3U à partir des systèmes IPTV Xtream
 2. Saisir nom d'utilisateur et mot de passe
 3. Sélectionner type de contenu (Tout, Direct, Films)
 4. Activer EPG et Catch-up si souhaité
-5. Sélectionner éléments par page
-6. Cliquer sur "Générer M3U"
+5. Cliquer sur "Générer M3U"
 
 ### 📜 License
 MIT License

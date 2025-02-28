@@ -34,7 +34,6 @@ if (isset($_POST['islemyap'])) {
         $catchup_enabled = isset($_POST['catchup_enabled']);
         $days_to_include = intval($_POST['days_to_include'] ?? 7);
         $epg_timeshift = intval($_POST['epg_timeshift'] ?? 0);
-        $items_per_page = intval($_POST['items_per_page'] ?? 0);
 
         // Tüm API verilerini tek seferde alalım
         $auth_data = curlRequest($base_url.'/player_api.php?username='.$username.'&password='.$password);
@@ -97,11 +96,6 @@ if (isset($_POST['islemyap'])) {
         if ($content_type == 'all' || $content_type == 'live') {
             $streams = json_decode($all_data['live_streams'], true);
             
-            // Sayfalama için stream sayısını sınırla
-            if ($items_per_page > 0) {
-                $streams = array_slice($streams, 0, $items_per_page);
-            }
-            
             foreach ($streams as $stream) {
                 if (isset($categoryData['live'][$stream['category_id']])) {
                     $tvg_id = $stream['epg_channel_id'] ?? $stream['stream_id'];
@@ -128,16 +122,6 @@ if (isset($_POST['islemyap'])) {
         // VOD (Film) içeriklerini ekle
         if ($content_type == 'all' || $content_type == 'vod') {
             $vods = json_decode($all_data['vod_streams'], true);
-            
-            // Sayfalama için VOD sayısını sınırla
-            if ($items_per_page > 0) {
-                $remaining_items = $items_per_page - (isset($streams) ? count($streams) : 0);
-                if ($remaining_items > 0) {
-                    $vods = array_slice($vods, 0, $remaining_items);
-                } else {
-                    $vods = [];
-                }
-            }
             
             foreach ($vods as $vod) {
                 if (isset($categoryData['vod'][$vod['category_id']])) {
@@ -248,18 +232,7 @@ if (isset($_POST['islemyap'])) {
                     <input type="number" class="form-control" name="epg_timeshift" id="epg_timeshift" value="0" min="-12" max="12">
                 </div>
 
-                <div class="mb-3">
-                    <label for="items_per_page" class="form-label"><?php echo $lang['items_per_page']; ?></label>
-                    <select class="form-select" name="items_per_page" id="items_per_page">
-                        <option value="0"><?php echo $lang['items_all']; ?></option>
-                        <option value="100"><?php echo $lang['items_100']; ?></option>
-                        <option value="250"><?php echo $lang['items_250']; ?></option>
-                        <option value="500"><?php echo $lang['items_500']; ?></option>
-                        <option value="1000"><?php echo $lang['items_1000']; ?></option>
-                    </select>
-                </div>
-
-            <input type="hidden" name="islemyap" value="1">
+                <input type="hidden" name="islemyap" value="1">
                 
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary" id="submitBtn">
