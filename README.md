@@ -19,7 +19,7 @@ Bu araç, Xtream Codes/Xtream UI IPTV sistemlerinden M3U playlist oluşturmanız
 - Modern ve responsive arayüz
 
 ### 🚀 Kurulum
-1. PHP 7.4 veya üzeri sürüm gereklidir
+1. PHP 7.4 veya üzeri sürüm gereklidir.
 2. Dosyaları web sunucunuza yükleyin
 3. `chmod 755 *.php` komutu ile dosya izinlerini ayarlayın
 4. Tarayıcınızdan `index.php` dosyasına erişin
