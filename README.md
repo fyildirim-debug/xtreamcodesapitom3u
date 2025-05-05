@@ -1,160 +1,229 @@
-# Xtream Codes API to M3U Playlist Converter
+# Xtream Codes API to M3U Playlist Converter (Multi-Language)
 
-![Screenshot](screenshots/main.png)
+![Screenshot](screenshots/main.png) <!-- Resim yolunu ana dizine göre ayarladık -->
 
 🇹🇷 [Türkçe](#türkçe) | 🇬🇧 [English](#english) | 🇩🇪 [Deutsch](#deutsch) | 🇫🇷 [Français](#français)
+
+---
 
 ## Türkçe
 
 ### 📱 Program Hakkında
-Bu araç, Xtream Codes/Xtream UI IPTV sistemlerinden M3U playlist oluşturmanızı sağlar. Canlı yayınlar ve film içeriklerini destekler.
+Bu proje, Xtream Codes veya Xtream UI tabanlı IPTV sistemlerinden M3U playlist dosyaları oluşturmak için çeşitli dillerde (PHP, Python, Node.js) **web tabanlı** araçlar sunar.
 
-### ✨ Özellikler
-- Canlı TV ve Film desteği
-- EPG (Elektronik Program Rehberi) desteği
-- Catch-up/Geriye Dönük İzleme desteği
-- Çoklu dil desteği (TR, EN, DE, FR)
-- İçerik filtreleme
-- Zaman dilimi ayarı
-- Modern ve responsive arayüz
+### ✨ Özellikler (Tüm Versiyonlar İçin Geçerli)
+- Canlı TV ve Film (VOD) desteği
+- EPG (Elektronik Program Rehberi) URL'sini playlist'e ekleme
+- Catch-up/Geriye Dönük İzleme desteği (ilgili M3U etiketleri ile)
+- İçerik türüne göre filtreleme (Tümü, Sadece Canlı, Sadece Film)
+- EPG Zaman Dilimi Kaydırma (Timeshift) ayarı
+- Kullanıcı dostu web arayüzü (Tüm versiyonlar)
+- Çoklu dil desteği (Şu anda arayüzlerde ağırlıklı olarak Türkçe, genişletilebilir)
 
-### 🚀 Kurulum
-1. PHP 7.4 veya üzeri sürüm gereklidir.
-2. Dosyaları web sunucunuza yükleyin
-3. `chmod 755 *.php` komutu ile dosya izinlerini ayarlayın
-4. Tarayıcınızdan `index.php` dosyasına erişin
+### 🚀 Kurulum ve Kullanım
 
-### 📖 Kullanım
-1. IPTV sunucu adresinizi girin (örn: http://example.com:8080)
-2. Kullanıcı adı ve şifrenizi girin
-3. İstediğiniz içerik türünü seçin (Tümü, Canlı, Film)
-4. EPG ve Catch-up özelliklerini isteğe bağlı olarak aktifleştirin
-5. "M3U Oluştur" butonuna tıklayın
+**1. PHP Versiyonu (`/php` klasörü)**
+   - **Gereksinimler:** PHP >= 7.4, `curl` ve `json` eklentileri.
+   - **Kurulum:**
+     1. `php` klasöründeki dosyaları web sunucunuzun (Apache, Nginx vb.) erişebileceği bir dizine yükleyin.
+     2. Web sunucunuzu yapılandırın ve tarayıcınızdan `apitom3u.php` dosyasına gidin.
+   - **Kullanım:** Web arayüzündeki formu doldurun ve "M3U Oluştur" butonuna tıklayın.
 
-### 📝 Teknik Detaylar
-Dizi içerikleri aşağıdaki teknik nedenlerden dolayı desteklenmemektedir:
-1. Her bölüm için ayrı API çağrısı gerekir
-2. Çok sayıda istek sunucu tarafından engellenebilir
-3. IP ve hesap yasaklanma riski vardır
-4. Sunucu kaynakları gereksiz tüketilir
+**2. Python Versiyonu (`/python` klasörü - Flask)**
+   - **Gereksinimler:** Python 3.x
+   - **Kurulum:**
+     1. Terminalde `python` klasörüne gidin: `cd python`
+     2. Gerekli kütüphaneleri kurun: `pip install -r requirements.txt`
+   - **Çalıştırma:**
+     ```bash
+     python app.py
+     ```
+   - **Kullanım:** Tarayıcınızı açın ve `http://localhost:5000` (veya terminalde belirtilen adres) adresine gidin. Formu doldurun.
 
-### ⚠️ Hata Kodları
-- 400: Geçersiz istek veya eksik parametre
-- 401: Geçersiz kullanıcı bilgileri
-- 403: Erişim engellendi
-- 404: Sunucu bulunamadı
-- 500: Sunucu hatası
+**3. Node.js Versiyonu (`/nodejs` klasörü - Express)**
+   - **Gereksinimler:** Node.js (npm dahil)
+   - **Kurulum:**
+     1. Terminalde `nodejs` klasörüne gidin: `cd nodejs`
+     2. Gerekli paketleri kurun: `npm install`
+   - **Çalıştırma:**
+     ```bash
+     npm start
+     # veya
+     node app.js
+     ```
+   - **Kullanım:** Tarayıcınızı açın ve `http://localhost:3000` (veya terminalde belirtilen adres) adresine gidin. Formu doldurun.
 
-### 🔧 API Kullanımı
-```php
-// Kullanıcı doğrulama
-GET /player_api.php?username=user&password=pass
+### 📝 Teknik Notlar
+- **Dizi (Series) Desteği:** Xtream Codes API'sinin yapısı (her bölüm için ayrı istek gerektirmesi), potansiyel sunucu yükü ve IP/hesap yasaklanma riski nedeniyle dizi içerikleri bilinçli olarak **desteklenmemektedir**.
 
-// Canlı yayın listesi
-GET /player_api.php?username=user&password=pass&action=get_live_streams
-
-// Film listesi
-GET /player_api.php?username=user&password=pass&action=get_vod_streams
-
-// EPG bilgisi
-GET /xmltv.php?username=user&password=pass
-```
+---
 
 ## English
 
 ### 📱 About
-This tool allows you to create M3U playlists from Xtream Codes/Xtream UI IPTV systems. It supports live streams and movies.
+This project provides **web-based** tools in various languages (PHP, Python, Node.js) to generate M3U playlist files from Xtream Codes or Xtream UI based IPTV systems.
 
-### ✨ Features
-- Live TV and Movie support
-- EPG (Electronic Program Guide) support
-- Catch-up/Time-shift support
-- Multi-language support (TR, EN, DE, FR)
-- Content filtering
-- Timezone adjustment
-- Modern and responsive interface
+### ✨ Features (Common to All Versions)
+- Live TV and Movie (VOD) support
+- Adding EPG (Electronic Program Guide) URL to the playlist
+- Catch-up support (with relevant M3U tags)
+- Content filtering (All, Live Only, Movies Only)
+- EPG Timeshift adjustment
+- User-friendly web interface (All versions)
+- Multi-language support (Currently primarily Turkish in interfaces, expandable)
 
-### 🚀 Installation
-1. PHP 7.4 or higher required
-2. Upload files to your web server
-3. Set permissions with `chmod 755 *.php`
-4. Access `index.php` from browser
+### 🚀 Installation and Usage
 
-### 📖 Usage
-1. Enter IPTV server address (e.g., http://example.com:8080)
-2. Enter username and password
-3. Select content type (All, Live, Movies)
-4. Optionally enable EPG and Catch-up
-5. Click "Generate M3U"
+**1. PHP Version (`/php` directory)**
+   - **Requirements:** PHP >= 7.4, `curl` and `json` extensions.
+   - **Installation:**
+     1. Upload the files from the `php` directory to a directory accessible by your web server (Apache, Nginx, etc.).
+     2. Configure your web server and access the `apitom3u.php` file from your browser.
+   - **Usage:** Fill out the form in the web interface and click the "Generate M3U" button.
+
+**2. Python Version (`/python` directory - Flask)**
+   - **Requirements:** Python 3.x
+   - **Installation:**
+     1. Navigate to the `python` directory in your terminal: `cd python`
+     2. Install the required libraries: `pip install -r requirements.txt`
+   - **Running:**
+     ```bash
+     python app.py
+     ```
+   - **Usage:** Open your browser and go to `http://localhost:5000` (or the address shown in the terminal). Fill out the form.
+
+**3. Node.js Version (`/nodejs` directory - Express)**
+   - **Requirements:** Node.js (with npm)
+   - **Installation:**
+     1. Navigate to the `nodejs` directory in your terminal: `cd nodejs`
+     2. Install the required packages: `npm install`
+   - **Running:**
+     ```bash
+     npm start
+     # or
+     node app.js
+     ```
+   - **Usage:** Open your browser and go to `http://localhost:3000` (or the address shown in the terminal). Fill out the form.
+
+### 📝 Technical Notes
+- **Series Support:** Due to the structure of the Xtream Codes API (requiring separate requests for each episode), potential server load, and the risk of IP/account bans, series content is intentionally **not supported**.
+
+---
 
 ## Deutsch
 
 ### 📱 Über
-Dieses Tool ermöglicht das Erstellen von M3U-Playlisten aus Xtream Codes/Xtream UI IPTV-Systemen. Unterstützt Live-Streams und Filme.
+Dieses Projekt bietet **webbasierte** Tools in verschiedenen Sprachen (PHP, Python, Node.js) zum Erstellen von M3U-Wiedergabelistendateien aus Xtream Codes oder Xtream UI-basierten IPTV-Systemen.
 
-### ✨ Funktionen
-- Live-TV und Film-Unterstützung
-- EPG-Unterstützung
-- Catch-up/Zeitversetztes Fernsehen
-- Mehrsprachenunterstützung (TR, EN, DE, FR)
-- Inhaltsfilterung
-- Zeitzonenanpassung
-- Moderne und responsive Oberfläche
+### ✨ Funktionen (Gemeinsam für alle Versionen)
+- Unterstützung für Live-TV und Filme (VOD)
+- Hinzufügen der EPG (Elektronischer Programmführer) URL zur Wiedergabeliste
+- Catch-up-Unterstützung (mit relevanten M3U-Tags)
+- Inhaltsfilterung (Alle, Nur Live, Nur Filme)
+- EPG-Zeitzonenverschiebung (Timeshift) Anpassung
+- Benutzerfreundliche Weboberfläche (Alle Versionen)
+- Mehrsprachigkeitsunterstützung (Derzeit hauptsächlich Türkisch in den Oberflächen, erweiterbar)
 
-### 🚀 Installation
-1. PHP 7.4 oder höher erforderlich
-2. Dateien auf Webserver hochladen
-3. Berechtigungen mit `chmod 755 *.php` setzen
-4. Auf `index.php` über Browser zugreifen
+### 🚀 Installation und Verwendung
 
-### 📖 Verwendung
-1. IPTV-Serveradresse eingeben (z.B. http://example.com:8080)
-2. Benutzername und Passwort eingeben
-3. Inhaltstyp auswählen (Alle, Live, Filme)
-4. Optional EPG und Catch-up aktivieren
-5. "M3U Generieren" klicken
+**1. PHP-Version (`/php`-Verzeichnis)**
+   - **Anforderungen:** PHP >= 7.4, `curl`- und `json`-Erweiterungen.
+   - **Installation:**
+     1. Laden Sie die Dateien aus dem `php`-Verzeichnis in ein Verzeichnis hoch, auf das Ihr Webserver (Apache, Nginx usw.) zugreifen kann.
+     2. Konfigurieren Sie Ihren Webserver und greifen Sie über Ihren Browser auf die Datei `apitom3u.php` zu.
+   - **Verwendung:** Füllen Sie das Formular in der Weboberfläche aus und klicken Sie auf die Schaltfläche "M3U Generieren".
+
+**2. Python-Version (`/python`-Verzeichnis - Flask)**
+   - **Anforderungen:** Python 3.x
+   - **Installation:**
+     1. Navigieren Sie im Terminal zum `python`-Verzeichnis: `cd python`
+     2. Installieren Sie die erforderlichen Bibliotheken: `pip install -r requirements.txt`
+   - **Ausführen:**
+     ```bash
+     python app.py
+     ```
+   - **Verwendung:** Öffnen Sie Ihren Browser und gehen Sie zu `http://localhost:5000` (oder die im Terminal angezeigte Adresse). Füllen Sie das Formular aus.
+
+**3. Node.js-Version (`/nodejs`-Verzeichnis - Express)**
+   - **Anforderungen:** Node.js (mit npm)
+   - **Installation:**
+     1. Navigieren Sie im Terminal zum `nodejs`-Verzeichnis: `cd nodejs`
+     2. Installieren Sie die erforderlichen Pakete: `npm install`
+   - **Ausführen:**
+     ```bash
+     npm start
+     # oder
+     node app.js
+     ```
+   - **Verwendung:** Öffnen Sie Ihren Browser und gehen Sie zu `http://localhost:3000` (oder die im Terminal angezeigte Adresse). Füllen Sie das Formular aus.
+
+### 📝 Technische Hinweise
+- **Serienunterstützung:** Aufgrund der Struktur der Xtream Codes API (erfordert separate Anfragen für jede Episode), potenzieller Serverlast und dem Risiko von IP-/Kontosperrungen wird Serieninhalt bewusst **nicht unterstützt**.
+
+---
 
 ## Français
 
 ### 📱 À propos
-Cet outil permet de créer des playlists M3U à partir des systèmes IPTV Xtream Codes/Xtream UI. Prend en charge les flux en direct et les films.
+Ce projet fournit des outils **basés sur le Web** dans différentes langues (PHP, Python, Node.js) pour générer des fichiers de playlist M3U à partir de systèmes IPTV basés sur Xtream Codes ou Xtream UI.
 
-### ✨ Fonctionnalités
-- Support TV en direct et films
-- Support EPG
-- Support Catch-up
-- Support multilingue (TR, EN, DE, FR)
-- Filtrage de contenu
-- Ajustement du fuseau horaire
-- Interface moderne et responsive
+### ✨ Fonctionnalités (Communes à toutes les versions)
+- Prise en charge de la télévision en direct et des films (VOD)
+- Ajout de l'URL EPG (Guide électronique des programmes) à la playlist
+- Prise en charge du Catch-up (avec les balises M3U pertinentes)
+- Filtrage de contenu (Tout, Direct uniquement, Films uniquement)
+- Ajustement du décalage horaire EPG (Timeshift)
+- Interface Web conviviale (Toutes les versions)
+- Prise en charge multilingue (Actuellement principalement en turc dans les interfaces, extensible)
 
-### 🚀 Installation
-1. PHP 7.4 ou supérieur requis
-2. Télécharger les fichiers sur le serveur web
-3. Définir les permissions avec `chmod 755 *.php`
-4. Accéder à `index.php` depuis le navigateur
+### 🚀 Installation et Utilisation
 
-### 📖 Utilisation
-1. Saisir l'adresse du serveur IPTV (ex: http://example.com:8080)
-2. Saisir nom d'utilisateur et mot de passe
-3. Sélectionner type de contenu (Tout, Direct, Films)
-4. Activer EPG et Catch-up si souhaité
-5. Cliquer sur "Générer M3U"
+**1. Version PHP (Répertoire `/php`)**
+   - **Prérequis :** PHP >= 7.4, extensions `curl` et `json`.
+   - **Installation :**
+     1. Téléchargez les fichiers du répertoire `php` dans un répertoire accessible par votre serveur Web (Apache, Nginx, etc.).
+     2. Configurez votre serveur Web et accédez au fichier `apitom3u.php` depuis votre navigateur.
+   - **Utilisation :** Remplissez le formulaire dans l'interface Web et cliquez sur le bouton "Générer M3U".
 
-### 📜 License
-MIT License
+**2. Version Python (Répertoire `/python` - Flask)**
+   - **Prérequis :** Python 3.x
+   - **Installation :**
+     1. Accédez au répertoire `python` dans votre terminal : `cd python`
+     2. Installez les bibliothèques requises : `pip install -r requirements.txt`
+   - **Exécution :**
+     ```bash
+     python app.py
+     ```
+   - **Utilisation :** Ouvrez votre navigateur et allez à `http://localhost:5000` (ou l'adresse indiquée dans le terminal). Remplissez le formulaire.
 
-### 👥 Contributors
-- Fork and send PR to contribute
+**3. Version Node.js (Répertoire `/nodejs` - Express)**
+   - **Prérequis :** Node.js (avec npm)
+   - **Installation :**
+     1. Accédez au répertoire `nodejs` dans votre terminal : `cd nodejs`
+     2. Installez les packages requis : `npm install`
+   - **Exécution :**
+     ```bash
+     npm start
+     # ou
+     node app.js
+     ```
+   - **Utilisation :** Ouvrez votre navigateur et allez à `http://localhost:3000` (ou l'adresse indiquée dans le terminal). Remplissez le formulaire.
+
+### 📝 Notes Techniques
+- **Support des Séries :** En raison de la structure de l'API Xtream Codes (nécessitant des requêtes distinctes pour chaque épisode), de la charge potentielle du serveur et du risque de bannissement IP/compte, le contenu des séries n'est intentionnellement **pas pris en charge**.
 
 ---
 
+## 📜 License / Lizenz / Licence
+
+MIT License
+
 ## ⚠️ Yasal Uyarı / Legal Notice / Rechtlicher Hinweis / Avis Légal
 
-🇹🇷 Bu yazılım, sadece yasal ve ödenmiş IPTV abonelikleriniz için M3U kanal listesi oluşturmanıza yardımcı olan bir araçtır. Herhangi bir IPTV hizmeti, içerik veya abonelik sağlamamaktadır.
+🇹🇷 Bu yazılımlar, yalnızca yasal ve ödenmiş IPTV abonelikleriniz için kişisel M3U kanal listesi oluşturmanıza yardımcı olan araçlardır. Herhangi bir IPTV hizmeti, içerik veya abonelik sağlamamaktadır. Yazılımların kötüye kullanımından doğacak sonuçlardan kullanıcılar sorumludur.
 
-🇬🇧 This software is a tool that helps you create M3U channel lists for your legal and paid IPTV subscriptions only. It does not provide any IPTV service, content, or subscription.
+🇬🇧 This software is a tool that helps you create M3U channel lists for your legal and paid IPTV subscriptions only. It does not provide any IPTV service, content, or subscription. Misuse of the software is the sole responsibility of the user.
 
-🇩🇪 Diese Software ist nur ein Hilfsmittel zum Erstellen von M3U-Kanallisten für Ihre legalen und bezahlten IPTV-Abonnements. Sie bietet keine IPTV-Dienste, Inhalte oder Abonnements.
+🇩🇪 Diese Software ist nur ein Hilfsmittel zum Erstellen von M3U-Kanallisten für Ihre legalen und bezahlten IPTV-Abonnements. Sie bietet keine IPTV-Dienste, Inhalte oder Abonnements. Der Missbrauch der Software liegt in der alleinigen Verantwortung des Benutzers.
 
-🇫🇷 Ce logiciel est uniquement un outil pour créer des listes de chaînes M3U pour vos abonnements IPTV légaux et payés. Il ne fournit aucun service IPTV, contenu ou abonnement.
+🇫🇷 Ce logiciel est uniquement un outil pour créer des listes de chaînes M3U pour vos abonnements IPTV légaux et payés. Il ne fournit aucun service IPTV, contenu ou abonnement. Une mauvaise utilisation du logiciel relève de la seule responsabilité de l'utilisateur. 

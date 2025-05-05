@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= lang.title %> (Node.js/Express)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .converter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="converter-form">
+            <h2 class="text-center mb-4"><%= lang.title %> (Node.js/Express)</h2>
+            <% if (error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%- error.replace(/\n/g, '<br>') %> <!-- Hata mesajındaki newline karakterlerini <br> ile değiştir -->
+            </div>
+            <% } %>
+            <div class="alert alert-info" role="alert">
+                <%= lang.info %>
+            </div>
+            <form action="/" method="post" id="converterForm">
+                <div class="mb-3">
+                    <label for="url" class="form-label"><%= lang.url_label %></label>
+                    <input type="text" class="form-control" name="url" id="url" required
+                           placeholder="<%= lang.url_placeholder %>" value="<%= locals.formData && formData.url || '' %>">
+                    <div class="form-text"><%= lang.url_help %></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username" class="form-label"><%= lang.username_label %></label>
+                    <input type="text" class="form-control" name="username" id="username" required value="<%= locals.formData && formData.username || '' %>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label"><%= lang.password_label %></label>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="content_type" class="form-label"><%= lang.content_type_label %></label>
+                    <select class="form-select" name="content_type" id="content_type">
+                        <option value="all" <%= (locals.formData && formData.content_type == 'all') ? 'selected' : '' %>><%= lang.content_all %></option>
+                        <option value="live" <%= (locals.formData && formData.content_type == 'live') ? 'selected' : '' %>><%= lang.content_live %></option>
+                        <option value="vod" <%= (locals.formData && formData.content_type == 'vod') ? 'selected' : '' %>><%= lang.content_movies %></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><%= lang.epg_support %></label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="epg_enabled" id="epg_enabled" <%= (locals.formData && formData.epg_enabled) ? 'checked' : '' %>>
+                        <label class="form-check-label" for="epg_enabled"><%= lang.epg_enabled %></label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="catchup_enabled" id="catchup_enabled" <%= (locals.formData && formData.catchup_enabled) ? 'checked' : '' %>>
+                        <label class="form-check-label" for="catchup_enabled"><%= lang.catchup_enabled %></label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="days_to_include" class="form-label"><%= lang.days_to_include %></label>
+                    <input type="number" class="form-control" name="days_to_include" id="days_to_include" value="<%= locals.formData && formData.days_to_include || 7 %>" min="1" max="14">
+                </div>
+
+                <div class="mb-3">
+                    <label for="epg_timeshift" class="form-label"><%= lang.epg_timeshift %></label>
+                    <input type="number" class="form-control" name="epg_timeshift" id="epg_timeshift" value="<%= locals.formData && formData.epg_timeshift || 0 %>" min="-12" max="12">
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="spinner-border spinner-border-sm loading" role="status" aria-hidden="true"></span>
+                        <%= lang.submit_button %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('converterForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = submitBtn.querySelector('.loading');
+            loading.style.display = 'inline-block';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html> 
