@@ -2,8 +2,10 @@
 
 A powerful, user-friendly Node.js application that converts Xtream Codes API credentials into an M3U playlist file. It features a modern web interface, multi-language support, and advanced category management.
 
-![Main Screenshot](screenshots/main.png)
-![UI Screenshot](screenshots/ui.png)
+<p align="center">
+  <img src="screenshots/main.png" width="48%" alt="Main Interface" />
+  <img src="screenshots/ui.png" width="48%" alt="Category Selection" />
+</p>
 
 ## 🚀 Key Features
 
