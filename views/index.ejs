@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="<%= currentLang %>">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= lang.title %>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #FF9966 0%, #FF5E62 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow-color: rgba(102, 126, 234, 0.25);
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 30px 15px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .converter-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 35px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px var(--shadow-color);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid #e9ecef;
+        }
+
+        .cat-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .cat-item {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            cursor: move;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .cat-item:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .cat-item.sortable-ghost {
+            opacity: 0.4;
+            background: #e0e7ff;
+        }
+
+        .language-select {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+        }
+
+        .language-select select {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .language-select select:hover {
+            border-color: #667eea;
+        }
+
+        .language-select select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+            outline: none;
+        }
+
+        h2 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            color: #4338ca;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .form-check-input {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background: var(--primary-gradient);
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4b5563;
+            border: 2px solid #e5e7eb;
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 10px 20px;
+        }
+
+        .btn-secondary:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            color: #1f2937;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border: none;
+        }
+
+        .spinner-border {
+            width: 18px;
+            height: 18px;
+            border-width: 2px;
+            margin-right: 8px;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+            margin: 25px 0;
+        }
+
+        /* Custom Scrollbar */
+        .cat-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .cat-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .cat-list::-webkit-scrollbar-thumb {
+            background: #c7c7c7;
+            border-radius: 4px;
+        }
+
+        .cat-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        @media (max-width: 576px) {
+            .converter-form {
+                padding: 25px 20px;
+            }
+
+            .language-select {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="converter-form">
+            <form method="post" class="language-select">
+                <select name="language" class="form-select form-select-sm" onchange="this.form.submit()"
+                    aria-label="<%= lang.select_language %>">
+                    <% Object.keys(languages).forEach(function(code) { %>
+                        <option value="<%= code %>" <%=currentLang===code ? 'selected' : '' %>><%= languages[code].flag
+                                %>
+                                <%= languages[code].name %>
+                        </option>
+                        <% }); %>
+                </select>
+            </form>
+
+            <h2 class="text-center mb-4">
+                <%= lang.title %>
+            </h2>
+
+            <% if (error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%- error.replace(/\n/g, '<br>' ) %>
+                </div>
+                <% } %>
+
+                    <div class="alert alert-info" role="alert">
+                        <%= lang.info %>
+                    </div>
+
+                    <form action="/" method="post" id="converterForm">
+                        <!-- Credentials Section -->
+                        <div id="credentialsSection">
+                            <div class="mb-3">
+                                <label for="url" class="form-label">
+                                    <%= lang.url_label %>
+                                </label>
+                                <input type="text" class="form-control" name="url" id="url" required
+                                    placeholder="<%= lang.url_placeholder %>"
+                                    value="<%= locals.formData && formData.url || '' %>">
+                                <div class="form-text">
+                                    <%= lang.url_help %>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="username" class="form-label">
+                                    <%= lang.username_label %>
+                                </label>
+                                <input type="text" class="form-control" name="username" id="username" required
+                                    value="<%= locals.formData && formData.username || '' %>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label">
+                                    <%= lang.password_label %>
+                                </label>
+                                <input type="password" class="form-control" name="password" id="password" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="content_type" class="form-label">
+                                    <%= lang.content_type_label %>
+                                </label>
+                                <select class="form-select" name="content_type" id="content_type">
+                                    <option value="all" <%=(locals.formData && formData.content_type=='all' )
+                                        ? 'selected' : '' %>><%= lang.content_all %>
+                                    </option>
+                                    <option value="live" <%=(locals.formData && formData.content_type=='live' )
+                                        ? 'selected' : '' %>><%= lang.content_live %>
+                                    </option>
+                                    <option value="vod" <%=(locals.formData && formData.content_type=='vod' )
+                                        ? 'selected' : '' %>><%= lang.content_movies %>
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="button" class="btn btn-primary" id="fetchCategoriesBtn">
+                                    <span class="spinner-border spinner-border-sm loading" role="status"
+                                        aria-hidden="true"></span>
+                                    <span id="fetchBtnText">
+                                        <%= lang.fetch_btn_initial %>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Categories Section (Hidden Initially) -->
+                        <div id="categorySection" class="category-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i>
+                                    <%= lang.category_selection_title %>
+                                </h5>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-success" id="selectAllBtn">
+                                        <i class="fas fa-check-double me-1"></i>
+                                        <%= lang.select_all %>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="deselectAllBtn">
+                                        <i class="fas fa-times me-1"></i>
+                                        <%= lang.deselect_all %>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control form-control-sm" id="catSearch"
+                                placeholder="<%= lang.search_placeholder %>">
+                        </div>
+
+                        <ul class="nav nav-tabs mb-3" id="catTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="live-tab" data-bs-toggle="tab"
+                                    data-bs-target="#live-cats" type="button" role="tab">
+                                    <%= lang.tab_live %>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="vod-tab" data-bs-toggle="tab" data-bs-target="#vod-cats"
+                                    type="button" role="tab">
+                                    <%= lang.tab_vod %>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="catTabContent">
+                            <div class="tab-pane fade show active" id="live-cats" role="tabpanel">
+                                <div class="cat-list" id="liveCatList"></div>
+                            </div>
+                            <div class="tab-pane fade" id="vod-cats" role="tabpanel">
+                                <div class="cat-list" id="vodCatList"></div>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <!-- Settings Section -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <%= lang.epg_support %>
+                                </label>
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" name="epg_enabled" id="epg_enabled"
+                                        <%=(locals.formData && formData.epg_enabled) ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="epg_enabled">
+                                        <%= lang.epg_enabled %>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="catchup_enabled"
+                                        id="catchup_enabled" <%=(locals.formData && formData.catchup_enabled)
+                                        ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="catchup_enabled">
+                                        <%= lang.catchup_enabled %>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label for="days_to_include" class="form-label small mb-1">
+                                        <%= lang.days_to_include %>
+                                    </label>
+                                    <input type="number" class="form-control form-control-sm" name="days_to_include"
+                                        id="days_to_include"
+                                        value="<%= locals.formData && formData.days_to_include || 7 %>" min="1"
+                                        max="14">
+                                </div>
+                                <div>
+                                    <label for="epg_timeshift" class="form-label small mb-1">
+                                        <%= lang.epg_timeshift %>
+                                    </label>
+                                    <input type="number" class="form-control form-control-sm" name="epg_timeshift"
+                                        id="epg_timeshift" value="<%= locals.formData && formData.epg_timeshift || 0 %>"
+                                        min="-12" max="12">
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="selected_categories" id="selectedCategoriesInput">
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success" id="finalSubmitBtn">
+                                <i class="fas fa-download me-2"></i>
+                                <%= lang.submit_download %>
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="backBtn">
+                                <%= lang.back_btn %>
+                            </button>
+                        </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
+    <!-- Toast for Notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast align-items-center text-white bg-primary border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">
+                    İşlem başarılı!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <script>
+        const credentialsSection = document.getElementById('credentialsSection');
+        const categorySection = document.getElementById('categorySection');
+        const fetchBtn = document.getElementById('fetchCategoriesBtn');
+        const loading = fetchBtn.querySelector('.loading');
+        const backBtn = document.getElementById('backBtn');
+        const liveList = document.getElementById('liveCatList');
+        const vodList = document.getElementById('vodCatList');
+        const searchInput = document.getElementById('catSearch');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
+
+        // Dil çevirileri (JS tarafı için)
+        const translations = {
+            fetchError: "<%= lang.toast_error_fetch %>",
+            selectItems: "<%= lang.toast_error_select %>",
+            success: "<%= lang.toast_success %>",
+            downloadStart: "<%= lang.toast_download_start %>",
+            fetchBtnInitial: "<%= lang.fetch_btn_initial %>",
+            fetchBtnLoading: "<%= lang.fetch_btn_loading %>",
+            noLiveCats: "<%= lang.no_live_cats %>",
+            noVodCats: "<%= lang.no_vod_cats %>",
+            preparing: "<%= lang.preparing_btn %>"
+        };
+
+        // Kategori verilerini saklamak için
+        let categoriesData = { live: [], vod: [] };
+
+        // SortableJS Init
+        new Sortable(liveList, { animation: 150, ghostClass: 'sortable-ghost', handle: '.fa-grip-vertical' });
+        new Sortable(vodList, { animation: 150, ghostClass: 'sortable-ghost', handle: '.fa-grip-vertical' });
+
+        // Kategorileri Getir Butonu
+        fetchBtn.addEventListener('click', async () => {
+            const url = document.getElementById('url').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const contentType = document.getElementById('content_type').value;
+
+            if (!url || !username || !password) {
+                showToast("<%= lang.error_missing_field %>", "bg-danger");
+                return;
+            }
+
+            loading.style.display = 'inline-block';
+            fetchBtn.disabled = true;
+            document.getElementById('fetchBtnText').textContent = translations.fetchBtnLoading;
+
+            try {
+                const response = await fetch('/api/categories', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url, username, password, content_type: contentType })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    categoriesData = data.categories;
+                    renderCategories(categoriesData);
+                    credentialsSection.style.display = 'none';
+                    categorySection.style.display = 'block';
+                    showToast(translations.success);
+                } else {
+                    showToast(data.error || translations.fetchError, "bg-danger");
+                }
+            } catch (error) {
+                console.error(error);
+                showToast(translations.fetchError, "bg-danger");
+            } finally {
+                loading.style.display = 'none';
+                fetchBtn.disabled = false;
+                document.getElementById('fetchBtnText').textContent = translations.fetchBtnInitial;
+            }
+        });
+
+        // Geri Dön Butonu
+        backBtn.addEventListener('click', () => {
+            categorySection.style.display = 'none';
+            credentialsSection.style.display = 'block';
+        });
+
+        // Kategorileri Listele
+        function renderCategories(data) {
+            liveList.innerHTML = '';
+            vodList.innerHTML = '';
+
+            const createItem = (cat, type) => `
+                <div class="cat-item" data-id="${cat.id}" data-type="${type}" data-name="${cat.name.toLowerCase()}">
+                    <i class="fas fa-grip-vertical text-secondary me-3" style="cursor: move;"></i>
+                    <div class="form-check flex-grow-1 mb-0">
+                        <input class="form-check-input" type="checkbox" checked id="${type}_${cat.id}">
+                        <label class="form-check-label w-100" for="${type}_${cat.id}">
+                            ${cat.name}
+                        </label>
+                    </div>
+                </div>
+            `;
+
+            if (data.live && data.live.length) {
+                data.live.forEach(cat => liveList.insertAdjacentHTML('beforeend', createItem(cat, 'live')));
+            } else {
+                liveList.innerHTML = `<p class="text-muted text-center p-3">${translations.noLiveCats}</p>`;
+            }
+
+            if (data.vod && data.vod.length) {
+                data.vod.forEach(cat => vodList.insertAdjacentHTML('beforeend', createItem(cat, 'vod')));
+            } else {
+                vodList.innerHTML = `<p class="text-muted text-center p-3">${translations.noVodCats}</p>`;
+            }
+
+            // Eğer içerik tipine göre tabları gizle/göster yapmalıyız
+            const contentType = document.getElementById('content_type').value;
+            const liveTab = document.getElementById('live-tab');
+            const vodTab = document.getElementById('vod-tab');
+
+            if (contentType === 'live') {
+                liveTab.click();
+                vodTab.parentElement.style.display = 'none';
+                liveTab.parentElement.style.display = 'block';
+            } else if (contentType === 'vod') {
+                vodTab.click();
+                liveTab.parentElement.style.display = 'none';
+                vodTab.parentElement.style.display = 'block';
+            } else {
+                liveTab.parentElement.style.display = 'block';
+                vodTab.parentElement.style.display = 'block';
+                liveTab.click();
+            }
+        }
+
+        // Arama Fonksiyonu
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.cat-item').forEach(item => {
+                const name = item.dataset.name;
+                item.style.display = name.includes(term) ? 'flex' : 'none';
+            });
+        });
+
+        // Tümünü Seç
+        selectAllBtn.addEventListener('click', () => {
+            const activeTabId = document.querySelector('.nav-link.active').getAttribute('data-bs-target');
+            const container = document.querySelector(activeTabId);
+            container.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+        });
+
+        // Tümünü Kaldır
+        deselectAllBtn.addEventListener('click', () => {
+            const activeTabId = document.querySelector('.nav-link.active').getAttribute('data-bs-target');
+            const container = document.querySelector(activeTabId);
+            container.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        });
+
+        // Form Submit
+        document.getElementById('converterForm').addEventListener('submit', function (e) {
+            // Eğer hidden input zaten doluysa ve submit ediliyorsa karışma (klasik submit)
+            // Ama biz 2. aşamadayız, verileri toplayıp json yapıp hidden inputa koymalıyız.
+
+            if (categorySection.style.display === 'none') {
+                // Eğer kategori bölümü kapalıysa ve submit tetiklendiyse (ki olmamalı, type=button fetch var)
+                // Yinede normal submit yapılabilir ama kategori seçimi yok demektir.
+                return;
+            }
+
+            e.preventDefault(); // Önce durdur
+
+            const selectedCategories = [];
+
+            // Live Kategorileri Topla (DOM sıralamasına göre)
+            document.querySelectorAll('#live-cats .cat-item').forEach(item => {
+                const cb = item.querySelector('input[type="checkbox"]');
+                if (cb.checked) {
+                    selectedCategories.push({
+                        id: item.dataset.id,
+                        type: 'live',
+                        name: cb.nextElementSibling.textContent.trim()
+                    });
+                }
+            });
+
+            // VOD Kategorileri Topla (DOM sıralamasına göre)
+            document.querySelectorAll('#vod-cats .cat-item').forEach(item => {
+                const cb = item.querySelector('input[type="checkbox"]');
+                if (cb.checked) {
+                    selectedCategories.push({
+                        id: item.dataset.id,
+                        type: 'vod',
+                        name: cb.nextElementSibling.textContent.trim()
+                    });
+                }
+            });
+
+            if (selectedCategories.length === 0) {
+                showToast(translations.selectItems, "bg-warning");
+                return;
+            }
+
+            document.getElementById('selectedCategoriesInput').value = JSON.stringify(selectedCategories);
+
+            // Buton loading durumu
+            const finalBtn = document.getElementById('finalSubmitBtn');
+            const originText = finalBtn.innerHTML;
+            finalBtn.disabled = true;
+            finalBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> ${translations.preparing}`;
+
+            // Formu manuel submit et
+            e.target.submit();
+
+            setTimeout(() => {
+                finalBtn.disabled = false;
+                finalBtn.innerHTML = originText;
+                showToast(translations.downloadStart, "bg-success");
+            }, 3000);
+        });
+
+        function showToast(message, bgClass = "bg-primary") {
+            const toastEl = document.getElementById('liveToast');
+            const toastBody = document.getElementById('toastMessage');
+
+            toastEl.className = `toast align-items-center text-white border-0 ${bgClass}`;
+            toastBody.textContent = message;
+
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+    </script>
+</body>
+
+</html>
